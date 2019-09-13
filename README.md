@@ -5,4 +5,4 @@ in Python
 
 2) run the problem4.py and problem5.py
 
-3) I've also thrown the answers into JupiterLab, you can find these instructions by simply clicking on 'solution.ipynb'.
+3) I've also thrown the answers into JupiterLab, you can find these solutions by simply clicking on 'solution.ipynb'.
