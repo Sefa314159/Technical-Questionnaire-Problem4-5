@@ -1,1 +1,0 @@
-SELECT i_users.userld, i_users.username, i_users.emailaddress, COUNT(i_user_login_logs.userld) as logins, COUNT(i_user_login_logs.userld)>3 as bigger_than_three FROM i_users LEFT JOIN i_user_login_logs ON i_users.userld = i_user_login_logs.userld WHERE NOT username = 'Administrator' GROUP BY i_user_login_logs.userld ORDER BY logins DESC;
