@@ -1,27 +1,46 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Thu Sep 12 16:33:01 2019
+import sqlite3
 
-@author: Sefa3
-"""
+con = sqlite3.connect("lib.db")
 
-import numpy as np
-import pandas as pd
+cursor1 = con.cursor()
 
-# loading "i_users.csv" as DataFrame
-df1 = pd.read_csv("i_users.csv")
+cursor2 = con.cursor()
 
-# loading "i_user_login_logs.csv" as DataFrame
-df2 = pd.read_csv("i_user_login_logs.csv")
+def create_table():
+    
+    cursor1.execute("CREATE TABLE IF NOT EXISTS i_users (userld INT, username TEXT, emailaddress TEXT, isActive BOOLEAN, password TEXT, gender TEXT)") 
+    
+    cursor2.execute("CREATE TABLE IF NOT EXISTS i_user_login_logs (userld INT, login_date TEXT)")
+    
+    con.commit() 
 
-logs = []
-for i in range(2, len(df1["userld"]) + 1):
-    m, n = df2[df2["userld"] == i].iloc[:, 0:1].shape
-    logs.append(m)
+        
+def more_than_three():
+    
+    lst = []
+    
+    cursor1.execute("Select userld, username, emailaddress From i_users") 
+    
+    cursor2.execute("Select userld From i_user_login_logs")
+    
+    data1 = cursor1.fetchall()
+    
+    data2 = cursor2.fetchall()
+    
+    for i in range(0, len(data2)):
+        lst.append(data2[i])
+        
+    lst2 = []
+    
+    for i in range(1, 12):
+        if(lst.count((i,)) > 3):
+            lst2.append(i)
+    if(1 in lst2):
+        lst2.pop(0)
+        
+    for user in data1:
+        if user[0] in lst2:
+            print(user)
+more_than_three()
 
-x = pd.Series(logs)
-
-y = (x[x > 3].index) + 1
-
-df1.loc[y].iloc[:, 1:3]
-
+con.close()
